@@ -1,10 +1,10 @@
-function perm_array = generate_triplets(min_arr_size, max_arr_size)
+function perm_array = generate_triplets(min_row_size, max_row_size,min_col_size,max_col_size)
 
 tic
-max_col = max_arr_size;
-max_row = max_arr_size;
-min_col = min_arr_size;
-min_row = min_arr_size;
+max_col = max_col_size;
+max_row = max_row_size;
+min_col = min_col_size;
+min_row = min_row_size;
 
 perm_array = [1, 1, 1];
 
@@ -43,10 +43,10 @@ toc
 % adding_arr = [a,((b.^2-a.^2)./2+a.^2).^.5,b];
 % perm_array = vertcat(perm_array,adding_arr);
 
- 
-for i=1:size(perm_array,1)
-    fprintf('| %d, %d, %d | \n\n',perm_array(i,1),perm_array(i,2),perm_array(i,3))
-end
-toc    
+% Uncomment this for display 
+% for i=1:size(perm_array,1)
+%    fprintf('| %d, %d, %d | \n\n',perm_array(i,1),perm_array(i,2),perm_array(i,3))
+% end
+% toc
 
 fprintf('REACHED THE END!!!:\n\n');
