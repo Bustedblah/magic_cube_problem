@@ -1,24 +1,41 @@
 function [double_pair, single_pair] = find_match(data_array)
 
-array = sortrows(data_array,2);
+array = uint64(sortrows(data_array,2));
 len = size(array,1);
 
-% Code to be smarter about the multiplication will have to go here.
+% TODO: Code to be smarter about the multiplication will have to go here.
+
+
+
 % This is a cludge to get the center values all the same
 
 mfact = uint64(prod(array(:,2)));
-mult_temp = unint64(mfact./array(:,2));
-large_array = uint64(array.*(mult_temp*ones(1,3)));
+mult_temp = uint64(mfact)./uint64(array(:,2));
+large_array = array.*(mult_temp.*ones(1,3));
 
 % Following Code attempts to find the 5 trip configs and 4 trip configs
-center = 3*(large_array(1,2))^2;
+center = large_array(1,2);
+total_sum = 3*(large_array(1,2))^2;
+
 
 % compare_array = ones(size(large_array,1),size(large_array,1),size(large_array,1));
 
 list = vertcat(large_array(:,1),large_array(:,3));
 
 % Jeez ... there's surely a better way to do this.  Ugh.
-two_parter = center^2-((list.*ones(size(list,1),size(list,1)))'.^2+list'.*ones(size(list,1),size(list,1)).^2);
+
+% TODO: Avoid automatic broadcasting
+
+% NOTE: This is a better way to do this, but "binary operator '*' not implemented for 'uint64 matrix' by 'matrix' operations"
+% two_parter = total_sum-list*ones(1,size(list,1)).^2+list'.*ones(size(list,1),size(list,1)).^2);
+% The following is crappier inefficient code to do the above
+rows_array = list;
+for loop = 1:size(list,1)-1
+    rows_array = horzcat(rows_array,list);
+end
+
+two_parter = total_sum-rows_array.^2+(rows_array').^2;
+
 
 % Would have been better to delete the center column in large_array
 % list = horzcat(large_array(:,1),large_array(:,3));

@@ -16,7 +16,7 @@ array = arrayToBeChecked;
 %check = zeros(size(x,1),3);
 
 
-x = data_array;
+x = array;
 outarray = [1,1,1];
 % There has to be a more elegant way to do this in terms of vector notation
 % TODO: Figure the above out ...
@@ -26,5 +26,7 @@ for i=1:size(x,1)
         outarray=vertcat(outarray,[x(i,1),x(i,2),x(i,3)]);
     end
 end
+
+outarray(1,:)= [];
 
 base_trips = outarray;
