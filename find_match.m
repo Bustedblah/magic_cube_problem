@@ -9,7 +9,10 @@ len = size(array,1);
 
 % This is a cludge to get the center values all the same
 
-mfact = uint64(prod(array(:,2)));
+% Line below is old code. Stuff below has better factorization.
+% mfact = uint64(prod(array(:,2)));
+mfact = uint64(lcms(array(:,2)));
+
 mult_temp = uint64(mfact)./uint64(array(:,2));
 large_array = array.*(mult_temp.*ones(1,3));
 
