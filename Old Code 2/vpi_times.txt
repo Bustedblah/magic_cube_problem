@@ -1,4 +1,4 @@
-function INT = times(INT1,INT2)
+function INT = vpi_times(INT1,INT2)
 % vpi/times: Multiplies two vpi objects, or a product of a numeric var to an vpi
 % usage: INT = INT1*INT2;
 % usage: INT = times(INT1,INT2);
@@ -253,7 +253,7 @@ else
   
   % do they conform for multiplication?
   if ~isequal(size(INT1),size(INT2))
-    error('The two arrays do not conform in size for elementwise multiplication!')
+    error('The two arrays do not conform in size for elementwise multiplication')
   end
   
   % do the scalar multiplies
@@ -262,7 +262,6 @@ else
     INT(i) = INT1(i).*INT2(i);
   end
 end
-
 
 
 
