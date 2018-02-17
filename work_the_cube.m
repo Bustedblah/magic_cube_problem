@@ -11,7 +11,7 @@ addpath(strrep(pwd, "/magic_cube_problem", "/magic_cube_problem/VariablePrecisio
 dataFile = strrep(pwd, "/magic_cube_problem", "/magic_cube_problem/data/base_triplets.binsev");
 dataFile1 = strrep(pwd, "/magic_cube_problem", "/magic_cube_problem/data/center_search_data.binsev");
 dataFile2 = strrep(pwd, "/magic_cube_problem", "/magic_cube_problem/data/center_ab_data.binsev");
-dataFile3 = strrep(pwd, "/magic_cube_problem", "/magic_cube_problem/data/d1_d2_d3.binsev");                
+dataFile3 = strrep(pwd, "/magic_cube_problem", "/magic_cube_problem/data/d1_d2_d3_cnt.binsev");                
 
 fprintf('\nLoad the Crunched Triplet Array: ');
 load("-v7",dataFile, "base_triplets");
@@ -22,7 +22,7 @@ write_limit = 1;
 central_num = vpi(0);
 skip = 0;
 t0 = clock();
-max_iterations = 2000; %100000;  %size(center_triplets,1)-1 %vpi(10^10)
+max_iterations = 100000;  %size(center_triplets,1)-1 %vpi(10^10)
 
 triplets = sortrows(base_triplets,2);
 center_triplets = vpi(triplets(:,2));
@@ -31,17 +31,20 @@ end_of_list = center_triplets(size(center_triplets,1));
 if (start_type == 0)
     load("-v7",dataFile1, "center_search_data");
     load("-v7",dataFile2, "center_ab_data");
-    load("-v7",dataFile3, "d1_d2_d3");
-    d1 = d1_d2_d3(1);
-    d2 = d1_d2_d3(2);
-    d3 = d1_d2_d3(3);
-    counter = d3;
+    load("-v7",dataFile3, "d1_d2_d3_cnt");
+    d1 = d1_d2_d3_cnt(1);
+    d2 = d1_d2_d3_cnt(2);
+    d3 = d1_d2_d3_cnt(3);
+    counter = d1_d2_d3_cnt(4);
 elseif (start_type == 1)
     center_search_data = vpi([0,0,0,0]);
     center_ab_data = vpi([0,0,0,0]);
     d1 = vpi(center_triplets(size(center_triplets,1)-3));
     d2 = vpi(center_triplets(size(center_triplets,1)-2));
     d3 = vpi(center_triplets(size(center_triplets,1)-1));
+    %d1 = 5
+    %d2 = 13
+    %d3 = 17
     second_to_last_in_list = d3;
     counter = 1;
 else
@@ -49,6 +52,7 @@ else
     break;
 end;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 while counter < max_iterations
     tic
@@ -178,8 +182,8 @@ while counter < max_iterations
 
             if write_counter >= write_limit;          
                 save("-mat7-binary", dataFile1, "center_search_data");
-                d1_d2_d3 = [d1;d2;d3];
-                save("-mat7-binary", dataFile3, "d1_d2_d3");
+                d1_d2_d3_cnt = [d1;d2;d3;counter];
+                save("-mat7-binary", dataFile3, "d1_d2_d3_cnt");
                 write_counter = 0;
             end;
             
